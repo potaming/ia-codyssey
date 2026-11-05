@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>나의 영화 티어리스트</title>
+<style>
+:root{font-family:system-ui,-apple-system,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;color:#f4f4f8;background:#10121a;font-synthesis:none}*{box-sizing:border-box}body{margin:0;padding:34px 20px 80px;background:radial-gradient(ellipse at top left,#282844 0,transparent 48%),#10121a;min-height:100vh}main{max-width:1080px;margin:auto}h1{margin:0;font-size:clamp(26px,4vw,42px);letter-spacing:-1.4px}h2{margin:0 0 14px;font-size:18px}p{line-height:1.55}.muted{color:#a4a9bd;font-size:14px}.heading{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:28px}.pill{display:inline-block;background:#343454;color:#dcdcff;padding:5px 10px;border-radius:50px;font-size:12px;margin-bottom:10px}.actions,.add-row,.card-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}button{font:inherit;cursor:pointer;border:0;border-radius:10px;padding:10px 14px;color:#fff;background:#454965}button:hover{filter:brightness(1.15)}button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid #7ed3ff;outline-offset:2px}.primary{background:#7556d9}.secondary{background:#35394e}.danger{background:#5b3540}button:disabled{opacity:.45;cursor:not-allowed}.autosave{font-size:13px;color:#a9ebc6;background:#20352d;border:1px solid #3b7257;border-radius:12px;padding:9px 12px;white-space:nowrap}.autosave.error{color:#ffd4d4;background:#4a242b;border-color:#bc5364}.panel{background:#1b1e2b;border:1px solid #36384c;border-radius:18px;padding:20px;margin-bottom:22px}.add-row input{flex:1;min-width:190px}.add-row select{min-width:110px}input,textarea,select{font:inherit;background:#111420;border:1px solid #52566b;border-radius:10px;color:#fff;padding:11px 12px}textarea{width:100%;min-height:68px;resize:vertical;font-size:13px}label{font-size:13px;color:#cbd0e2}.field{display:flex;flex-direction:column;gap:7px}.small{font-size:12px}.status{min-height:22px;margin:11px 0 0;color:#aaedc8;font-size:13px}.tier{display:grid;grid-template-columns:86px 1fr;min-height:132px;border-radius:15px;overflow:hidden;margin-bottom:12px;border:1px solid #373a4b;background:#1d202e}.tier-label{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;font-weight:800;font-size:27px;color:#171721}.tier-label span{font-size:12px;font-weight:700}.tier[data-rating="5"] .tier-label{background:#f8ba71}.tier[data-rating="4"] .tier-label{background:#f8d97f}.tier[data-rating="3"] .tier-label{background:#b5dca2}.tier[data-rating="2"] .tier-label{background:#9acbdc}.tier[data-rating="1"] .tier-label{background:#c0b7dd}.tier.drop-target{outline:3px dashed #a18bff;outline-offset:-4px}.cards{padding:14px;display:flex;gap:12px;flex-wrap:wrap;align-items:flex-start;min-width:0}.empty{color:#777e98;font-size:13px;padding:35px 8px}.movie{width:210px;max-width:100%;background:#292d3f;border:1px solid #474c60;border-radius:13px;padding:13px;box-shadow:0 4px 10px #0a0b1333}.movie[draggable="true"]{cursor:grab}.movie.dragging{opacity:.45}.movie-title{font-size:16px;line-height:1.4;font-weight:750;margin:0 0 10px;overflow-wrap:anywhere}.card-actions{gap:6px}.card-actions button{padding:7px 9px;font-size:12px}.card-actions .danger{margin-left:auto}.edit{margin-top:12px;display:none}.edit.open{display:block}.edit label{display:block;margin-bottom:6px}.edit .small{margin:5px 0 8px;color:#c5cadd}.edit button{margin-top:8px;font-size:12px;padding:8px 11px}.help{margin-top:26px;color:#a4a9bd;font-size:13px}.screen-reader{position:absolute;left:-9999px}@media(max-width:640px){body{padding:20px 12px 50px}.panel{padding:15px}.tier{grid-template-columns:58px 1fr}.tier-label{font-size:23px}.cards{padding:10px}.movie{width:100%}.heading{align-items:flex-start}.add-row>*,.add-row .field{width:100%}.add-row input,.add-row select{width:100%}}
+</style>
+</head>
+<body>
+<main>
+<header class="heading"><div><span class="pill">MY MOVIE ARCHIVE</span><h1>나의 영화 티어리스트</h1><p class="muted">영화 8편을 1~5점으로 분류하고, 나만의 한 줄 감상평을 남겨보세요.</p></div><div class="actions"><button id="undo" class="secondary" type="button" disabled>↶ 전 단계로</button><span id="save-status" class="autosave" role="status" aria-live="polite">● 자동 저장 확인 중…</span></div></header>
+<section class="panel" aria-labelledby="add-heading"><h2 id="add-heading">영화 추가하기</h2><div class="add-row"><div class="field" style="flex:2"><label for="new-title">영화 제목</label><input id="new-title" maxlength="90" placeholder="예: 센과 치히로의 행방불명"></div><div class="field"><label for="new-rating">별점 영역</label><select id="new-rating"><option value="5">5점</option><option value="4">4점</option><option value="3" selected>3점</option><option value="2">2점</option><option value="1">1점</option></select></div><div class="field" style="flex:2;min-width:200px"><label for="new-comment">한 줄 감상평 (선택)</label><input id="new-comment" maxlength="160" placeholder="비워 두어도 괜찮아요"></div><button id="add" class="primary" type="button" style="align-self:end">+ 추가</button></div><p id="status" class="status" role="status" aria-live="polite"></p><p class="muted small">기본 영화 8편은 예시 점수로 배치되어 있습니다. 인터넷 검색 없이 제목을 직접 입력합니다. 영화를 추가·삭제하거나 별점·감상평을 변경하면 이 브라우저에 자동 저장됩니다.</p></section>
+<div id="tiers" aria-label="영화 별점 목록"></div>
+<p class="help">사용법: 영화 카드를 다른 점수 칸으로 끌어 놓거나, 카드의 점수 변경 버튼을 사용하세요. '의견 보기'에서 감상평을 작성할 수 있습니다. 직전 편집 작업은 '전 단계로' 버튼으로 취소할 수 있습니다.</p>
+</main>
+<script>
+(()=>{'use strict';
+const KEY='my-movie-tierlist-mission1-v2'; // 기존 버전에서 저장한 목록도 그대로 읽습니다.
+// 초기 별점은 미션 시연용 고정 배치로, 외부 평점이 아닙니다.
+const INITIAL=[
+{id:'starter-1',title:'기생충',rating:5,comment:''},
+{id:'starter-2',title:'인터스텔라',rating:5,comment:''},
+{id:'starter-3',title:'라라랜드',rating:4,comment:''},
+{id:'starter-4',title:'센과 치히로의 행방불명',rating:5,comment:''},
+{id:'starter-5',title:'어벤져스: 엔드게임',rating:4,comment:''},
+{id:'starter-6',title:'범죄도시',rating:3,comment:''},
+{id:'starter-7',title:'타이타닉',rating:4,comment:''},
+{id:'starter-8',title:'토이 스토리',rating:3,comment:''}
+];
+const clone=o=>JSON.parse(JSON.stringify(o));
+const el=id=>document.getElementById(id);
+let movies=clone(INITIAL),history=[],nextId=0;
+try{const saved=localStorage.getItem(KEY);if(saved){const parsed=JSON.parse(saved);if(Array.isArray(parsed)&&parsed.every(m=>m&&typeof m.id==='string'&&typeof m.title==='string'&&Number.isInteger(m.rating)&&m.rating>=1&&m.rating<=5&&typeof m.comment==='string'))movies=parsed;}}catch(e){notify('저장 데이터를 읽지 못해 기본 영화로 시작합니다.');}
+function notify(message){el('status').textContent=message;}
+function persist(){
+ const status=el('save-status');
+ try{
+  localStorage.setItem(KEY,JSON.stringify(movies));
+  status.classList.remove('error');
+  status.textContent='✓ 자동 저장됨 · 이 브라우저';
+  status.title='현재 영화 목록, 별점 및 감상평이 이 브라우저에 저장되었습니다.';
+ }catch(e){
+  status.classList.add('error');
+  status.textContent='⚠ 자동 저장 실패';
+  status.title='브라우저 저장 기능을 사용할 수 없습니다. 저장 공간 또는 브라우저 설정을 확인해 주세요.';
+  notify('자동 저장에 실패했습니다. 브라우저 저장 설정을 확인해 주세요.');
+ }
+}
+
+function remember(){history.push(clone(movies));if(history.length>50)history.shift();el('undo').disabled=false;}
+function make(tag,className,text){const node=document.createElement(tag);if(className)node.className=className;if(text!==undefined)node.textContent=text;return node;}
+function render(){const root=el('tiers');root.replaceChildren();for(let rate=5;rate>=1;rate--){const tier=make('section','tier');tier.dataset.rating=String(rate);tier.setAttribute('aria-label',rate+'점 영화');const label=make('div','tier-label',rate+'점');const items=make('div','cards');items.dataset.rating=String(rate);const subset=movies.filter(m=>m.rating===rate);if(!subset.length)items.append(make('div','empty','여기로 영화를 옮겨보세요'));
+for(const movie of subset){const card=make('article','movie');card.draggable=true;card.dataset.id=movie.id;card.append(make('h3','movie-title',movie.title));const tools=make('div','card-actions');const down=make('button','secondary','−');down.type='button';down.title='별점 1점 낮추기';down.setAttribute('aria-label',movie.title+' 별점 낮추기');down.disabled=rate===1;down.addEventListener('click',()=>changeRating(movie.id,rate-1));const up=make('button','secondary','+');up.type='button';up.title='별점 1점 높이기';up.setAttribute('aria-label',movie.title+' 별점 높이기');up.disabled=rate===5;up.addEventListener('click',()=>changeRating(movie.id,rate+1));const opinion=make('button','secondary','의견 보기');opinion.type='button';const remove=make('button','danger','삭제');remove.type='button';remove.addEventListener('click',()=>{remember();movies=movies.filter(m=>m.id!==movie.id);render();persist();notify('영화를 삭제했습니다.');});tools.append(down,up,opinion,remove);card.append(tools);
+const editor=make('div','edit');const fieldLabel=make('label','',movie.title+' 감상평 (선택)');const textarea=make('textarea');textarea.maxLength=160;textarea.value=movie.comment;const fieldId='comment-'+movie.id.replace(/[^a-zA-Z0-9_-]/g,'');textarea.id=fieldId;fieldLabel.htmlFor=fieldId;const emptyHint=make('p','small',movie.comment?'저장된 의견을 수정할 수 있어요.':'아직 남긴 의견이 없습니다.');const apply=make('button','primary','감상평 적용');apply.type='button';apply.addEventListener('click',()=>{const fresh=movies.find(m=>m.id===movie.id);if(!fresh)return;if(fresh.comment!==textarea.value){remember();fresh.comment=textarea.value;persist();notify('감상평이 자동 저장되었습니다.');}render();});editor.append(fieldLabel,emptyHint,textarea,apply);card.append(editor);opinion.setAttribute('aria-expanded','false');opinion.addEventListener('click',()=>{const open=editor.classList.toggle('open');opinion.setAttribute('aria-expanded',String(open));opinion.textContent=open?'의견 닫기':'의견 보기';});
+card.addEventListener('dragstart',event=>{event.dataTransfer.setData('text/plain',movie.id);event.dataTransfer.effectAllowed='move';card.classList.add('dragging');});card.addEventListener('dragend',()=>card.classList.remove('dragging'));items.append(card);}
+tier.append(label,items);tier.addEventListener('dragover',event=>{event.preventDefault();event.dataTransfer.dropEffect='move';tier.classList.add('drop-target');});tier.addEventListener('dragleave',event=>{if(!tier.contains(event.relatedTarget))tier.classList.remove('drop-target');});tier.addEventListener('drop',event=>{event.preventDefault();tier.classList.remove('drop-target');const id=event.dataTransfer.getData('text/plain');if(id)changeRating(id,rate);});root.append(tier);}}
+function changeRating(id,rate){const m=movies.find(m=>m.id===id);if(!m||m.rating===rate||rate<1||rate>5)return;remember();m.rating=rate;render();persist();notify('별점 영역을 '+rate+'점으로 변경했습니다.');}
+el('add').addEventListener('click',()=>{const title=el('new-title').value.trim();if(!title){notify('영화 제목을 입력해 주세요.');el('new-title').focus();return;}if(movies.some(m=>m.title.toLocaleLowerCase()===title.toLocaleLowerCase())){notify('이미 등록된 영화 제목입니다.');return;}remember();movies.push({id:'user-'+Date.now()+'-'+(++nextId),title,rating:Number(el('new-rating').value),comment:el('new-comment').value.trim()});el('new-title').value='';el('new-comment').value='';render();persist();notify('영화를 추가했습니다.');});el('new-title').addEventListener('keydown',e=>{if(e.key==='Enter')el('add').click();});el('undo').addEventListener('click',()=>{if(!history.length)return;movies=history.pop();render();el('undo').disabled=!history.length;persist();notify('직전 편집 작업을 취소했습니다.');});render();persist();
+})();
+</script>
+</body>
+</html>
